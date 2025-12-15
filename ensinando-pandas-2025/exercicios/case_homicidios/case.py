@@ -12,12 +12,11 @@ def read_files(file_name: str):
     return df
 
 # %%
-files_list = os.listdir('../../data/ipea')
+files_list = os.listdir('../../data/ipea/')
 files_list
 
 # %%
 dfs=[]
-
 for i in files_list:
     file_name = i.split('.')[0]
     dfs.append(read_files(file_name))
@@ -28,5 +27,9 @@ for i in files_list:
 dfs[-1]
 
 # %%
-pd.concat(dfs, axis=1).reset_index()
+df_full = (pd.concat(dfs, axis=1)
+             .reset_index()
+             .sort_values(["período", "nome"]))
+# %%
+df_full.to_csv("homicidios_consolidado.csv", index=False, sep=';')
 # %%
